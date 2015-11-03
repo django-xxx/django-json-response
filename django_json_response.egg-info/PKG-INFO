@@ -1,20 +1,20 @@
 Metadata-Version: 1.1
 Name: django-json-response
-Version: 1.0.0
+Version: 1.0.6
 Summary: DIY Django's JsonResponse and JsonpResponse
 Home-page: https://github.com/Brightcells/django-json-response
 Author: Hackathon
 Author-email: kimi.huang@brightcells.com
 License: UNKNOWN
-Description: ======================
+Description: ====================
         django-json-response
-        ======================
+        ====================
         
         django-json-response
-        ======================
+        ====================
         
-        class JsonResponse(data, encoder=DjangoJSONEncoder, safe=True, **kwargs) is New in Django 1.7
-        Ref: https://docs.djangoproject.com/en/1.8/ref/request-response/#jsonresponse-objects
+        * JsonResponse is New in Django 1.7
+        * Ref: https://docs.djangoproject.com/en/1.8/ref/request-response/#jsonresponse-objects
         
         Installation
         ============
@@ -33,7 +33,8 @@ Description: ======================
         
             def excelview(request):
                 objs = SomeModel.objects.all()
-                return JsonHttpResponse({
+        
+                return JsonResponse({
                     'status': 200,
                     'message': u'成功'
                     'data': {
@@ -42,6 +43,29 @@ Description: ======================
                         'objs': [obj.data for obj in objs]
                     }
                 })
+        
+        
+            or
+        
+        
+            from json_response import JsonpResponse
+        
+            def excelview(request):
+                callback = request.GET.get('callback', '')
+        
+                objs = SomeModel.objects.all()
+        
+                return JsonpResponse(callback, {
+                    'status': 200,
+                    'message': u'成功'
+                    'data': {
+                        'data1': 'xxx',
+                        'data2': 'ooo',
+                        'objs': [obj.data for obj in objs]
+                    }
+                })
+        
+        
         
 Keywords: django-json-response django-jsonp-response
 Platform: UNKNOWN

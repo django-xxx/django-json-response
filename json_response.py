@@ -45,7 +45,7 @@ class LazableJSONEncoder(json.JSONEncoder):
             return super(LazableJSONEncoder, self).default(o)
 
 
-class JsonHttpResponse(HttpResponse):
+class JsonResponse(HttpResponse):
     """Docstring for JsonHttpResponse """
 
     def __init__(self, data, encoding='utf8', *args, **kwargs):
@@ -54,13 +54,13 @@ class JsonHttpResponse(HttpResponse):
         except Exception as err:
             content = CONTENT_ERR.format(data, err)
 
-        super(JsonHttpResponse, self).__init__(
+        super(JsonResponse, self).__init__(
             content=content,
             content_type=CONTENT_TYPE,
         )
 
 
-class JsonpHttpResponse(HttpResponse):
+class JsonpResponse(HttpResponse):
     """Docstring for JsonpHttpResponse """
 
     def __init__(self, callback, data, encoding='utf8', *args, **kwargs):
@@ -69,6 +69,6 @@ class JsonpHttpResponse(HttpResponse):
         except Exception as err:
             content = CONTENT_ERR.format(data, err)
 
-        super(JsonpHttpResponse, self).__init__(
+        super(JsonpResponse, self).__init__(
             content=content,
         )
