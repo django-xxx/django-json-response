@@ -65,7 +65,7 @@ class JsonpResponse(HttpResponse):
 
     def __init__(self, callback, data, encoding='utf8', *args, **kwargs):
         try:
-            content = u'{0}(\'{1}\')'.format(callback, json.dumps(data, ensure_ascii=False, cls=LazableJSONEncoder, *args))
+            content = u"{0}('{1}')".format(callback, json.dumps(data, ensure_ascii=False, cls=LazableJSONEncoder, *args).replace("\'", "\\\'"))
         except Exception as err:
             content = CONTENT_ERR.format(data, err)
 
