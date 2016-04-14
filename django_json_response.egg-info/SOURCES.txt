@@ -1,7 +1,0 @@
-README.rst
-json_response.py
-setup.py
-django_json_response.egg-info/PKG-INFO
-django_json_response.egg-info/SOURCES.txt
-django_json_response.egg-info/dependency_links.txt
-django_json_response.egg-info/top_level.txt

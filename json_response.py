@@ -15,8 +15,8 @@ import decimal
 import json
 
 
-CONTENT_TYPE = u'application/json;charset=UTF-8'
-CONTENT_ERR = u'{0} can\'t be jsonlized, due to {1}'
+CONTENT_TYPE = 'application/json;charset=UTF-8'
+CONTENT_ERR = '{0} can\'t be jsonlized, due to {1}'
 
 
 class LazableJSONEncoder(json.JSONEncoder):
@@ -65,10 +65,48 @@ class JsonpResponse(HttpResponse):
 
     def __init__(self, callback, data, encoding='utf8', *args, **kwargs):
         try:
-            content = u"{0}('{1}')".format(callback, json.dumps(data, ensure_ascii=False, cls=LazableJSONEncoder, *args).replace("\'", "\\\'"))
+            content = "{0}('{1}')".format(callback, json.dumps(data, ensure_ascii=False, cls=LazableJSONEncoder, *args).replace("\'", "\\\'"))
         except Exception as err:
             content = CONTENT_ERR.format(data, err)
 
         super(JsonpResponse, self).__init__(
             content=content,
         )
+
+
+def json_response(func):
+    """
+    A decorator thats takes a view response and turns it into json.
+    """
+    def decorator(request, *args, **kwargs):
+        objects = func(request, *args, **kwargs)
+        if isinstance(objects, (HttpResponse, JsonResponse, JsonpResponse)):
+            return objects
+        return JsonResponse(objects)
+    return decorator
+
+
+def jsonp_response(func):
+    """
+    A decorator thats takes a view response and turns it into jsonp.
+    """
+    def decorator(request, *args, **kwargs):
+        objects = func(request, *args, **kwargs)
+        if isinstance(objects, (HttpResponse, JsonResponse, JsonpResponse)):
+            return objects
+        return JsonpResponse(request.GET.get('callback', ''), objects)
+    return decorator
+
+
+def auto_response(func):
+    """
+    A decorator thats takes a view response and turns it
+    into json. If a callback is added through GET or POST
+    the response is JSONP.
+    """
+    def decorator(request, *args, **kwargs):
+        objects = func(request, *args, **kwargs)
+        if isinstance(objects, (HttpResponse, JsonResponse, JsonpResponse)):
+            return objects
+        return JsonpResponse(request.GET.get('callback', ''), objects) if 'callback' in request.GET else JsonResponse(objects)
+    return decorator
