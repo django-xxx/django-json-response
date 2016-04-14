@@ -29,7 +29,7 @@ Usage
 
         return JsonResponse({
             'status': 200,
-            'message': u'成功'
+            'message': u'成功',
             'data': {
                 'data1': 'xxx',
                 'data2': 'ooo',
@@ -50,7 +50,7 @@ Usage
 
         return JsonpResponse(callback, {
             'status': 200,
-            'message': u'成功'
+            'message': u'成功',
             'data': {
                 'data1': 'xxx',
                 'data2': 'ooo',
@@ -68,7 +68,7 @@ Usage
 
         return {
             'status': 200,
-            'message': u'成功'
+            'message': u'成功',
             'data': {
                 'data1': 'xxx',
                 'data2': 'ooo',
@@ -82,7 +82,7 @@ Usage
 
         return {
             'status': 200,
-            'message': u'成功'
+            'message': u'成功',
             'data': {
                 'data1': 'xxx',
                 'data2': 'ooo',
@@ -96,7 +96,7 @@ Usage
 
         return {
             'status': 200,
-            'message': u'成功'
+            'message': u'成功',
             'data': {
                 'data1': 'xxx',
                 'data2': 'ooo',
