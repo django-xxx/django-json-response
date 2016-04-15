@@ -15,12 +15,8 @@ import decimal
 import json
 
 
-CONTENT_TYPE = 'application/json;charset=UTF-8'
-CONTENT_ERR = '{0} can\'t be jsonlized, due to {1}'
-
-
 class LazableJSONEncoder(json.JSONEncoder):
-    """Docstring for LazableJSONEncoder """
+    """ Docstring for LazableJSONEncoder """
 
     def default(self, o):
         if isinstance(o, datetime.datetime):
@@ -46,31 +42,32 @@ class LazableJSONEncoder(json.JSONEncoder):
 
 
 class JsonResponse(HttpResponse):
-    """Docstring for JsonHttpResponse """
+    """ Docstring for JsonHttpResponse """
 
     def __init__(self, data, encoding='utf8', *args, **kwargs):
         try:
             content = json.dumps(data, ensure_ascii=False, cls=LazableJSONEncoder, *args)
         except Exception as err:
-            content = CONTENT_ERR.format(data, err)
+            content = '{0} can\'t be jsonlized, due to {1}'.format(data, err)
 
         super(JsonResponse, self).__init__(
             content=content,
-            content_type=CONTENT_TYPE,
+            content_type='application/json;charset=UTF-8',
         )
 
 
 class JsonpResponse(HttpResponse):
-    """Docstring for JsonpHttpResponse """
+    """ Docstring for JsonpHttpResponse """
 
     def __init__(self, callback, data, encoding='utf8', *args, **kwargs):
         try:
-            content = "{0}('{1}')".format(callback, json.dumps(data, ensure_ascii=False, cls=LazableJSONEncoder, *args).replace("\'", "\\\'"))
+            content = '{0}({1});'.format(callback, json.dumps(data, ensure_ascii=False, cls=LazableJSONEncoder, *args))
         except Exception as err:
-            content = CONTENT_ERR.format(data, err)
+            content = '{0} can\'t be jsonlized, due to {1}'.format(data, err)
 
         super(JsonpResponse, self).__init__(
             content=content,
+            content_type='application/application;charset=UTF-8',
         )
 
 
@@ -100,9 +97,8 @@ def jsonp_response(func):
 
 def auto_response(func):
     """
-    A decorator thats takes a view response and turns it
-    into json. If a callback is added through GET or POST
-    the response is JSONP.
+    A decorator thats takes a view response and turns it into json.
+    If a callback is added through GET or POST the response is JSONP.
     """
     def decorator(request, *args, **kwargs):
         objects = func(request, *args, **kwargs)
