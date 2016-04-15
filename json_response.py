@@ -48,7 +48,7 @@ class JsonResponse(HttpResponse):
         try:
             content = json.dumps(data, ensure_ascii=False, cls=LazableJSONEncoder, *args)
         except Exception as err:
-            content = '{0} can\'t be jsonlized, due to {1}'.format(data, err)
+            content = '{} can\'t be jsonlized, due to {}'.format(data, err)
 
         super(JsonResponse, self).__init__(
             content=content,
@@ -61,9 +61,9 @@ class JsonpResponse(HttpResponse):
 
     def __init__(self, callback, data, encoding='utf8', *args, **kwargs):
         try:
-            content = '{0}({1});'.format(callback, json.dumps(data, ensure_ascii=False, cls=LazableJSONEncoder, *args))
+            content = '{}({});'.format(callback, json.dumps(data, ensure_ascii=False, cls=LazableJSONEncoder, *args))
         except Exception as err:
-            content = '{0} can\'t be jsonlized, due to {1}'.format(data, err)
+            content = '{} can\'t be jsonlized, due to {}'.format(data, err)
 
         super(JsonpResponse, self).__init__(
             content=content,
