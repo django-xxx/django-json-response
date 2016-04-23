@@ -7,12 +7,14 @@ class JsonResponse(data, encoder=DjangoJSONEncoder, safe=True, **kwargs) is New 
 Ref: https://docs.djangoproject.com/en/1.8/ref/request-response/#jsonresponse-objects
 """
 
-from django.http import HttpResponse
-from django.utils.timezone import is_aware
+from __future__ import unicode_literals
 
 import datetime
 import decimal
 import json
+
+from django.http import HttpResponse
+from django.utils.timezone import is_aware
 
 
 class LazableJSONEncoder(json.JSONEncoder):
