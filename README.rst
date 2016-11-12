@@ -17,6 +17,16 @@ Installation
     pip install django-json-response
 
 
+Warning
+=======
+
+::
+
+    Since Version 1.1.3, the JsonpResponse return Object replace of String.
+
+    "{}('{}')" ==> '{}({});'
+
+
 Usage
 =====
 
