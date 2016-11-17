@@ -14,7 +14,7 @@ setup(
     description="DIY Django's JsonResponse and JsonpResponse",
     long_description=open('README.rst').read(),
 
-    url='https://github.com/Brightcells/django-json-response',
+    url='https://github.com/django-xxx/django-json-response',
 
     author='Hackathon',
     author_email='kimi.huang@brightcells.com',
